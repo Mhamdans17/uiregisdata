@@ -17,7 +17,7 @@ function Register() {
   const [form, setForm] = useState({ name: '', email: '', age: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
-  const navigate = useNavigate(); // ✅ Tambahkan ini
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,10 +31,9 @@ function Register() {
       const res = await axios.post('http://localhost:3000/api/users', form);
       setMessage(res.data.message || 'Registrasi berhasil');
 
-      // ✅ Redirect setelah sukses registrasi
       setTimeout(() => {
         navigate('/activate');
-      }, 1500); // jeda 1.5 detik supaya alert sempat muncul
+      }, 1000);
 
     } catch (err) {
       setError(true);
@@ -43,80 +42,100 @@ function Register() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f0f2f5',
-        px: 2,
-      }}
-    >
-      <Container maxWidth="sm">
-        <Paper elevation={4} sx={{ p: 4, borderRadius: 4 }}>
-          <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-            <Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56, mb: 1 }}>
-              <PersonAddAltIcon fontSize="large" />
-            </Avatar>
-            <Typography variant="h6" component="h1">
-              Buat Akun Baru
-            </Typography>
-          </Box>
+    <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* Background Blur */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url("/src/assets/registasi.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(4px) brightness(0.7)',
+          zIndex: 0,
+        }}
+      />
 
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Nama Lengkap"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Email"
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Umur"
-              name="age"
-              type="number"
-              value={form.age}
-              onChange={handleChange}
-              required
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              size="large"
-              sx={{
-                mt: 3,
-                py: 1.5,
-                textTransform: 'uppercase',
-                fontWeight: 'bold',
-              }}
-            >
-              Daftar Sekarang
-            </Button>
-          </Box>
+      {/* Content */}
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          px: 2,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Paper elevation={4} sx={{ p: 4, borderRadius: 4, backdropFilter: 'blur(4px)', backgroundColor: 'rgba(255, 255, 255, 0.85)' }}>
+            <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+              <Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56, mb: 1 }}>
+                <PersonAddAltIcon fontSize="large" />
+              </Avatar>
+              <Typography variant="h6" component="h1">
+                Buat Akun Baru
+              </Typography>
+            </Box>
 
-          {message && (
-            <Alert severity={error ? 'error' : 'success'} sx={{ mt: 3 }}>
-              {message}
-            </Alert>
-          )}
-        </Paper>
-      </Container>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Nama Lengkap"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Email"
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Umur"
+                name="age"
+                type="number"
+                value={form.age}
+                onChange={handleChange}
+                required
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                size="large"
+                sx={{
+                  mt: 3,
+                  py: 1.5,
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                }}
+              >
+                Daftar Sekarang
+              </Button>
+            </Box>
+
+            {message && (
+              <Alert severity={error ? 'error' : 'success'} sx={{ mt: 3 }}>
+                {message}
+              </Alert>
+            )}
+          </Paper>
+        </Container>
+      </Box>
     </Box>
   );
 }

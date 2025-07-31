@@ -70,7 +70,6 @@ function Login() {
           backgroundPosition: 'center',
           filter: 'blur(5px) brightness(0.6)',
           zIndex: 0,
-          position: 'absolute',
         }}
       />
 
