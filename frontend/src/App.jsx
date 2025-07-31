@@ -7,6 +7,9 @@ import Register from './pages/Register.jsx';
 import Activate from './pages/Activate';
 import Login from './pages/Login.jsx';
 import AdminDashboard from './pages/AdminDashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function AppContent() {
   const location = useLocation();
@@ -24,10 +27,19 @@ function AppContent() {
     >
       <Routes>
         <Route path="/" element={<Welcome />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/activate" element={<Activate />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Box>
   );

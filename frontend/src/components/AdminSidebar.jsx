@@ -8,9 +8,11 @@ import {
   Typography,
   IconButton,
   Toolbar,
+  Divider,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -21,6 +23,32 @@ const AdminSidebar = ({ open, onClose, setView }) => {
     { text: 'Dashboard', path: '/admin/dashboard', view: 'home' },
     { text: 'Kelola Admin', path: '', view: 'manage-admin' },
   ];
+
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('Token tidak ditemukan');
+        return;
+      }
+
+      await axios.post(
+        'http://localhost:3000/api/auth/logout',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      localStorage.removeItem('token');
+      navigate('/');
+    } catch (error) {
+      console.error('Logout gagal:', error);
+      alert('Logout gagal, silakan coba lagi.');
+    }
+  };
 
   return (
     <Drawer
@@ -72,6 +100,23 @@ const AdminSidebar = ({ open, onClose, setView }) => {
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
+      </List>
+
+      <Divider sx={{ bgcolor: 'rgba(255,255,255,0.2)', my: 2 }} />
+
+      <List>
+        <ListItem
+          button
+          onClick={() => {
+            handleLogout();
+            onClose();
+          }}
+          sx={{
+            '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+          }}
+        >
+          <ListItemText primary="Logout" />
+        </ListItem>
       </List>
     </Drawer>
   );

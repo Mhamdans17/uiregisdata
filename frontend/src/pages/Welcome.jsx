@@ -1,7 +1,7 @@
 // src/pages/Welcome.js
-import { Button, Typography, Box, Paper, Stack } from '@mui/material';
+import { Button, Typography, Box, Paper, Stack, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import bgImage from '../assets/welcomeBG.jpg'; // pastikan path dan nama file benar
+import bgImage from '../assets/welcomeBG.jpg';
 
 function Welcome() {
   const navigate = useNavigate();
@@ -43,10 +43,10 @@ function Welcome() {
           p: 6,
           borderRadius: 5,
           textAlign: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backgroundColor: 'rgba(255, 255, 255, 0.6)', 
           maxWidth: 600,
           width: '100%',
-          backdropFilter: 'blur(3px)',
+          backdropFilter: 'blur(20px)', // lebih blur
         }}
       >
         <Typography variant="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -76,6 +76,18 @@ function Welcome() {
             Login
           </Button>
         </Stack>
+
+        {/* Tambahan link Reset Password */}
+        <Typography variant="body2" sx={{ mt: 4 }}>
+          <Link
+            component="button"
+            onClick={() => navigate('/forgot-password')}
+            underline="hover"
+            sx={{ color: 'primary.main', fontWeight: 500 }}
+          >
+            Lupa Password?
+          </Link>
+        </Typography>
       </Paper>
     </Box>
   );
